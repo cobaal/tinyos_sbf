@@ -65,6 +65,7 @@ implementation {
 
   enum {
     INVALID_ELEMENT = 0xFF,
+    INVALID_RX_NODE = 0xFF,
   };
 
   /***************** Init Commands *****************/
@@ -89,12 +90,12 @@ implementation {
     uint32_t activation_code = (uint32_t)header->dest << 16 | (uint32_t)header->src;
     uint32_t my_code = (uint32_t)1 << TOS_NODE_ID;
     uint8_t dsn = header->dsn;
-    am_id_t id = header->type;
+    am_id_t src = header->type;
 
-    if((activation_code & my_code) != my_code || hasSeen(id, dsn)) {
-      return signal DuplicateReceive.receive(msg, payload, len);
+    if((activation_code & my_code) != my_code || src == TOS_NODE_ID || TOS_NODE_ID == INVALID_RX_NODE || hasSeen(src, dsn)) {
+      return msg;
     } else {
-      insert(id, dsn);
+      insert(src, dsn);
       return signal Receive.receive(msg, payload, len);
     }
   }
