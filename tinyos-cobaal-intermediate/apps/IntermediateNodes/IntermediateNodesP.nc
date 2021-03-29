@@ -53,6 +53,8 @@ implementation
     if (error == SUCCESS) {
       radioFull = FALSE;
     }
+
+    call Leds.led1Toggle();
   }
 
   event void RadioControl.stopDone(error_t error) {}
