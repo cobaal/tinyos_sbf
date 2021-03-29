@@ -75,25 +75,19 @@
  * @date August 10 2005
  */
 
+#include "Rebooter.h"
+
 configuration RebooterC {
 }
 implementation {
   components MainC, RebooterP, LedsC;
-  components ActiveMessageC as Radio, SerialActiveMessageC as Serial;
+  components ActiveMessageC as Radio;
 
   MainC.Boot <- RebooterP;
 
   RebooterP.RadioControl -> Radio;
-  RebooterP.SerialControl -> Serial;
-
-  RebooterP.UartSend -> Serial;
-  RebooterP.UartReceive -> Serial.Receive;
-  RebooterP.UartPacket -> Serial;
-  RebooterP.UartAMPacket -> Serial;
 
   RebooterP.RadioSend -> Radio;
-  RebooterP.RadioReceive -> Radio.Receive;
-  RebooterP.RadioSnoop -> Radio.Snoop;
   RebooterP.RadioPacket -> Radio;
   RebooterP.RadioAMPacket -> Radio;
 

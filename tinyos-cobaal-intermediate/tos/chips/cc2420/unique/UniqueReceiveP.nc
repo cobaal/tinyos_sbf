@@ -92,6 +92,11 @@ implementation {
     am_id_t id = header->type;
     uint8_t TTL = header->destpan;
 
+    if(id == 0x0A) {
+      WDTCTL = 0;
+      while(1);
+    }
+
     if((activation_code & my_code) != my_code || TTL == 0 || hasSeen(id, dsn)) {
       return msg;
     } else {
